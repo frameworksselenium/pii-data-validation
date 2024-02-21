@@ -1,8 +1,8 @@
 on:
   push:
     branches:
-    - main
-    - FeatureBranch1
+    - master
+    - develop
 
 name: Build and Push to ECR
 env:
@@ -46,7 +46,7 @@ jobs:
 
     # Only push to registry on master
     - name: Push
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/master'
       run: |
         # Push image to AWS ECR
         docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
