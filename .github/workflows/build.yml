@@ -54,7 +54,7 @@ jobs:
           REGISTRY: ${{ steps.login_ecr.outputs.registry }}
       run: |
         # Build and tag the image
-        docker build -t $REGISTRY/fastapi-example:$SHA
+        docker build $REGISTRY/fastapi-example:$SHA
         docker push $REGISTRY/fastapi-example:$SHA
 
     # Only push to registry on master
