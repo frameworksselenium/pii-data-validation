@@ -1,8 +1,9 @@
 on:
-  push:
-    branches:
-    - master
-    - develop
+  workflow_dispatch:
+  #push:
+   # branches:
+   # - master
+   # - develop
 
 name: Build and Push to ECR
 env:
