@@ -15,6 +15,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRETE_ID }}
   CONTAINER_IMAGE: fastapi-example:${{ github.sha }}
 
+
 jobs:
   build-and-push:
     name: Build and deploy
@@ -26,6 +27,10 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@master
+
+    - name: get short sha
+      id: short_sha
+      run: echo sha=$(git rev_parse --short ${{ github.sha }}) >>$GITHUB_OUTPUT
 #    - name: Set up Python
 #      uses: actions/setup-python@v1
 #      with:
@@ -38,20 +43,23 @@ jobs:
 #        sudo ./aws/install --update
     
     - name: Setup ECR
+      id: login_ecr
       run: |
         # Login to AWS ECR
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/fastapi-example
 
     - name: Build and tag the image
+      env:
+          SHA: ${{ steps.short_sha.outputs.sha }}
+          REGISTRY: ${{ steps.login_ecr.outputs.registry }}
       run: |
         # Build and tag the image
-        docker build \
-          -t $CONTAINER_IMAGE \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
+        docker build -t $REGISTRY/fastapi-example:$SHA
+        docker push $REGISTRY/fastapi-example:$SHA
 
     # Only push to registry on master
-    - name: Push
+   # - name: Push
     #  if: github.ref == 'refs/heads/master'
-      run: |
-        # Push image to AWS ECR
-        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
+   #   run: |
+    #    # Push image to AWS ECR
+    #    docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
