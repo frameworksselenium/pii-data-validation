@@ -17,6 +17,9 @@ jobs:
   build-and-push:
     name: Build and deploy
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
     steps:
 
     - name: Checkout
