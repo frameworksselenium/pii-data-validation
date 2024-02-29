@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: pii-ecs-task
+      Cpu: '256' # CPU units (Fargate uses CPU shares, where 256 CPU units = 0.25 vCPU)
+      Memory: '512' # Memory in MiB
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: arn:aws:iam::788877024129:role/iam-MyTaskExecutionRole-nEm5pnYelEf9
+      ContainerDefinitions:
+        - Name: fastapi-example
+          Image: 51fd6aa25b3a92131278e19de6ad4cba4454185c
+          PortMappings:
+            - ContainerPort: 80
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref MyLogGroup
+              awslogs-region: us-east-1
+              awslogs-stream-prefix: fastapi-example
+
+  MyLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /ecs/fastapi-example
