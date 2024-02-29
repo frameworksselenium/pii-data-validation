@@ -44,6 +44,7 @@ jobs:
 
     - name: Deploy CloudFormation stack
       run: |
+        echo ls
         aws cloudformation deploy \
           --stack-name pii-stack \
           --template-file pii-data-validation/cloudformation/ecs.yml \
