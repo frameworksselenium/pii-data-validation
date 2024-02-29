@@ -12,7 +12,7 @@ Resources:
       ExecutionRoleArn: arn:aws:iam::788877024129:role/iam-MyTaskExecutionRole-nEm5pnYelEf9
       ContainerDefinitions:
         - Name: fastapi-example
-          Image: 51fd6aa25b3a92131278e19de6ad4cba4454185c
+          Image: latest
           PortMappings:
             - ContainerPort: 80
           LogConfiguration:
