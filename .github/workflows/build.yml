@@ -46,5 +46,5 @@ jobs:
       run: |
         aws cloudformation deploy \
           --stack-name pii-stack \
-          --template-file ../../cloudformation/ecs.yml \
+          --template-file pii-data-validation/cloudformation/ecs.yml \
           --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
