@@ -3,17 +3,32 @@ on:
     inputs:
       name:
         type: choice
-        description: Who to greet
+        description: Browser
         options:
-        - monalisa
-        - cschleiden
+        - Chrome
+        - Firefox
       message:
         required: true
-      use-emoji:
+      machine_type:
         type: boolean
-        description: Include 🎉🤣 emojis
+        description: Local?
       environment:
         type: environment
+        description: Environment
+        options:
+          - QA
+          - INT
+      tags:
+        type: multi-choice
+        description: select tags
+        options:
+          - smoke
+          - regression
+          - py-service1
+      branch:
+        description: 'Define branch name'
+        required: true
+        default: 'master'
 name: Build and Push to ECR
 env:
   AWS_DEFAULT_REGION: us-east-1
