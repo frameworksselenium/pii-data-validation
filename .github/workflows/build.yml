@@ -7,8 +7,6 @@ on:
         options:
         - Chrome
         - Firefox
-      message:
-        required: true
       machine_type:
         type: boolean
         description: Local?
@@ -19,12 +17,11 @@ on:
           - QA
           - INT
       tags:
-        type: multi-choice
+        type: choice
         description: select tags
         options:
           - smoke
           - regression
-          - py-service1
       branch:
         description: 'Define branch name'
         required: true
